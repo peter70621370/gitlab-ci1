@@ -1,0 +1,73 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Liste des Identifiants</h1>
+
+<!-- Affichage des messages de succès ou d'erreur -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Filtre par prix -->
+<form method="GET" action="{{ url_for('ident_list') }}" class="mb-4">
+    <div class="form-group">
+        <label for="tarif">Filtrer par prix :</label>
+        <select class="form-control" id="tarif" name="tarif">
+            <option value="" {% if not filtre_tarif %}selected{% endif %}>Tous les prix</option>
+            <option value="100" {% if filtre_tarif=="100" %}selected{% endif %}>100F</option>
+            <option value="200" {% if filtre_tarif=="200" %}selected{% endif %}>200F</option>
+            <option value="500" {% if filtre_tarif=="500" %}selected{% endif %}>500F</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Appliquer le filtre</button>
+</form>
+
+<!-- Table d'affichage des identifiants -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Identifiants disponibles</h6>
+    </div>
+    <div class="card-body">
+        {% if identifiants %}
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Login</th>
+                        <th>Mot de passe</th>
+                        <th>Durée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for identifiant in identifiants %}
+                    <tr>
+                        <td>{{ identifiant.Login }}</td>
+                        <td>{{ identifiant.Password }}</td>
+                        <td>{{ identifiant['Uptime Limit'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <div class="pagination justify-content-center">
+            {{ pagination.links }}
+        </div>
+        {% else %}
+        <p>Aucun identifiant disponible pour le moment.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Lien pour charger plus d'identifiants -->
+<div class="text-center">
+    <a href="{{ url_for('charger_ident') }}" class="btn btn-primary">Charger de nouveaux identifiants</a>
+</div>
+{% endblock %}

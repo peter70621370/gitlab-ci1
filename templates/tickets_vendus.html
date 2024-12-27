@@ -1,0 +1,41 @@
+{% extends "admin.html" %}
+
+{% block content %}
+    <h1 class="h3 mb-4 text-gray-800">Liste des Tickets Vendus</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Historique des ventes</h6>
+        </div>
+        <div class="card-body">
+            {% if tickets %}
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Login</th>
+                                <th>Mot de passe</th>
+                                <th>Montant</th>
+                                <th>Numéro de téléphone</th>
+                                <th>Date et heure de vente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket in tickets %}
+                                <tr>
+                                    <td>{{ ticket[0] }}</td>
+                                    <td>{{ ticket[1] }}</td>
+                                    <td>{{ ticket[2] }}F</td>
+                                    <td>{{ ticket[3] }}</td>
+                                    <td>{{ ticket[4] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>Aucune vente n'a encore été enregistrée.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

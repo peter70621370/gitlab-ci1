@@ -1,0 +1,181 @@
+/* Réinitialisation de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Styles du body */
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* Conteneur global centré */
+.auth-container {
+    width: 400px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Logo */
+.logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+/* Titre de la page */
+.page-title {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Formulaire */
+.form-box {
+    text-align: left;
+}
+
+/* Social login */
+.social-login {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.social-btn {
+    flex: 1;
+    background-color: #f5f5f5;
+    border: none;
+    padding: 12px;
+    margin: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #333;
+}
+
+.github {
+    background-color: #333;
+    color: #fff;
+}
+
+.google {
+    background-color: #dd4b39;
+    color: #fff;
+}
+
+/* Ligne de séparation */
+hr {
+    border: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* Champ du numéro de téléphone */
+.phone-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.country-code {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    color: #333;
+}
+
+.phone-input input[type="tel"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 0;
+    outline: none;
+}
+
+/* Sélecteurs */
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Bouton de soumission */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #5564d8;
+}
+
+small {
+    font-size: 12px;
+    color: #ff6b6b;
+    margin-top: 5px;
+}
+/* Container des messages flash */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    width: 100%;
+}
+
+/* Style de base pour les messages flash */
+.flash-message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 1em;
+    text-align: center;
+    color: rgb(2, 0, 0);
+}
+
+/* Messages de succès */
+.flash-message.success {
+    background-color: #2ecc71;  /* Vert */
+    border-left: 5px solid #27ae60;
+}
+
+/* Messages d'erreur */
+.flash-message.error {
+    background-color: #e74c3c;  /* Rouge */
+    border-left: 5px solid #c0392b;
+}
+
+/* Messages d'avertissement */
+.flash-message.warning {
+    background-color: #f1c40f;  /* Jaune */
+    color: #333;
+    border-left: 5px solid #f39c12;
+}
+
+/* Messages d'information */
+.flash-message.info {
+    background-color: #3498db;  /* Bleu */
+    border-left: 5px solid #2980b9;
+}
+
+/* Effet de survol */
+.flash-message:hover {
+    opacity: 0.9;
+    cursor: pointer;
+}

@@ -1,0 +1,184 @@
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flask-app-db
+
+---
+# Deployment Flask
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: flask-app-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app
+        image: peter70621370/wifi_app:v2
+        env:
+        - name: MYSQL_HOST
+          value: mysql-service
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_PASSWORD
+          value: root
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-secret
+#              key: password
+        - name: MYSQL_DATABASE
+          value: sp_wi
+        ports:
+        - containerPort: 5000
+---
+# Service Flask
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+  namespace: flask-app-db
+spec:
+  selector:
+    app: flask-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: NodePort
+
+---
+# Deployment MySQL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: flask-app-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-secret
+#              key: password
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          value: sp_wi
+        - name: MYSQL_CURSORCLASS
+          value: DictCursor
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+
+---
+# Service MySQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: flask-app-db
+spec:
+  selector:
+    app: mysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  clusterIP: None
+
+---
+# Persistent Volume Claim pour MySQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: flask-app-db
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# Secret pour MySQL
+#apiVersion: v1
+#kind: Secret
+#metadata:
+#  name: mysql-secret
+#  namespace: flask-app-db
+#type: Opaque
+#data:
+#  password: bXlzcWxfcGFzc3dvcmQ=  # "mysql_password" encodé en base64
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin
+  namespace: flask-app-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+      - name: phpmyadmin
+        image: phpmyadmin:latest
+        env:
+        - name: PMA_HOST
+          value: mysql-service
+        - name: PMA_PORT
+          value: "3306"
+        ports:
+        - containerPort: 80
+---
+# Service phpMyAdmin
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+  namespace: flask-app-db
+spec:
+  selector:
+    app: phpmyadmin
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 80
+  type: NodePort

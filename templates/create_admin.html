@@ -1,0 +1,48 @@
+{% extends "admin.html" %}
+
+{% block content %}
+    <h1 class="h3 mb-4 text-gray-800">Créer un admin</h1>
+
+    <form class="user" method="POST" action="{{ url_for('create_admin') }}">
+        <!-- Champ pour le nom -->
+        <div class="form-group">
+            <input type="text" name="nom" class="form-control form-control-user" placeholder="Nom" required>
+        </div>
+        
+        <!-- Champ pour le prénom -->
+        <div class="form-group">
+            <input type="text" name="prenom" class="form-control form-control-user" placeholder="Prénom" required>
+        </div>
+
+        <!-- Champ pour l'adresse email -->
+        <div class="form-group">
+            <input type="email" name="email" class="form-control form-control-user" placeholder="Adresse email" required>
+        </div>
+
+        <!-- Champ pour le numéro de téléphone -->
+        <div class="form-group">
+            <input type="text" name="telephone" class="form-control form-control-user" placeholder="Numéro de téléphone" required>
+        </div>
+
+        <!-- Champs pour le mot de passe et la confirmation -->
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="password" name="password" class="form-control form-control-user" placeholder="Mot de passe" required>
+            </div>
+            <div class="col-sm-6">
+                <input type="password" name="confirm_password" class="form-control form-control-user" placeholder="Confirmer le mot de passe" required>
+            </div>
+        </div>
+
+        <!-- Sélection du rôle (admin ou superadmin) -->
+        <div class="form-group">
+            <select name="role" class="form-control form-control-user" required>
+                <option value="admin">Admin</option>
+                <option value="superadmin">Superadmin</option>
+            </select>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button type="submit" class="btn btn-primary btn-user btn-block">Créer un compte admin</button>
+    </form>
+{% endblock %}

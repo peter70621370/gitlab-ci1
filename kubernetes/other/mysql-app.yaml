@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-service
+  labels:
+    app: mysql
+    tier: service
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      tier: service
+  template:
+    metadata:
+      labels:
+        app: mysql
+        tier: service
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        env:
+        - name: MYSQL_RANDOM_ROOT_PASSWORD
+          value: "true"
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_DATABASE
+          value: sp_wi
+        - name: MYSQL_PASSWORD
+          value: root
+        - name: MYSQL_CURSORCLASS
+          value: DictCursor
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  labels:
+    app: mysql
+    tier: service
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql
+    tier: service
+  clusterIP: None
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+    app: mysql
+    tier: service
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+

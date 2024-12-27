@@ -1,0 +1,39 @@
+{% extends "admin.html" %}
+
+{% block content %}
+    <h1 class="h3 mb-4 text-gray-800">Charger les Identifiants</h1>
+
+    <!-- Affichage des messages de succès ou d'erreur -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Formulaire de chargement des identifiants (CSV) -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Charger un fichier CSV d'identifiants</h6>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('charger_ident') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Sélectionner un fichier CSV :</label>
+                    <input type="file" name="file" class="form-control-file" id="file" accept=".csv" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Charger le fichier</button>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+    <!-- Lien pour retourner à l'interface admin -->
+    <div class="text-center">
+        <a href="{{ url_for('admin') }}" class="btn btn-secondary">Retour au tableau de bord</a>
+    </div>
+{% endblock %}

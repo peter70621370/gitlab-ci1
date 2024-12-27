@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: myapp-vol03
+  labels:
+    app: myapp
+    type: local
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: "/mnt/data/myapp/vol03"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: myapp-vol04
+  labels:
+    app: myapp
+    type: local
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: "/mnt/data/myapp/vol04"

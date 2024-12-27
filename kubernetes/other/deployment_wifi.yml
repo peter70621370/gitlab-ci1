@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wifi-spark-deployment
+  labels:
+    app: wifi-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wifi-app
+  template:
+    metadata:
+      labels:
+        app: wifi-app
+    spec:
+      containers:
+      - name: wifi-app
+        image: peter70621370/wifi_app:v4
+        ports:
+        - containerPort: 5000

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wifi_spark
+  labels:
+    app: wifi_app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wifi_app
+  template:
+    metadata:
+      labels:
+        app: wifi_app
+    spec:
+      containers:
+      - name: wifi_app
+        image: peter70621370/wifi_app:v1

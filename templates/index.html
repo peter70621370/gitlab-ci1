@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Wi-Fi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+</head>
+
+<body>
+    <div class="auth-container">
+        <!-- Logo et Titre centrés au-dessus du formulaire -->
+        <img src="{{ url_for('static', filename='images/spark.png') }}" alt="Logo de Spark" class="logo">
+        <h1 class="page-title">Payer pour accéder au Wi-Fi</h1>
+
+        <!-- Formulaire -->
+        <div class="form-box">
+            <form action="{{ url_for('payer') }}" method="POST" onsubmit="return validatePhoneNumber()">
+
+                <hr>
+
+                <label for="phone_number">Numéro de téléphone (Togo):</label>
+                <div class="phone-input">
+                    <span class="country-code">+228</span>
+                    <input type="tel" id="phone_number" name="phone_number" placeholder="XX XX XX XX" maxlength="8"
+                        required>
+                </div>
+                <small id="phone-error" style="color:red; display:none;">Le numéro doit contenir 8 chiffres</small>
+
+                <label for="tarif">Choisissez votre tarif:</label>
+                <select id="tarif" name="tarif" required>
+                    <option value="1">100F - 3 Heures</option>
+                    <option value="2">200F - 24 Heures</option>
+                    <option value="5">500F - 7 Jours</option>
+                </select>
+
+                <button type="submit" class="submit-btn">Payer</button>
+            </form>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="flash-message {{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
